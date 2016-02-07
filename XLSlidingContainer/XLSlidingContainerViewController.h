@@ -34,7 +34,7 @@ typedef NS_ENUM(NSUInteger, XLSlidingContainerMovementType){
 
 @class XLSlidingContainerViewController;
 
-@protocol XLContainedViewVController
+@protocol XLSlidingContainerViewController
 // to be implemented by embedded controllers
 @optional
 - (void) minimizedController:(CGFloat) diff;
@@ -47,8 +47,8 @@ typedef NS_ENUM(NSUInteger, XLSlidingContainerMovementType){
 @protocol XLSlidingContainerViewControllerDataSource <NSObject>
 // datasource
 @required
-- (UIViewController <XLContainedViewVController>*) getLowerControllerFor:(XLSlidingContainerViewController *)sliderViewController;
-- (UIViewController <XLContainedViewVController>*) getUpperControllerFor:(XLSlidingContainerViewController *)sliderViewController;
+- (UIViewController <XLSlidingContainerViewController>*) getLowerControllerFor:(XLSlidingContainerViewController *)sliderViewController;
+- (UIViewController <XLSlidingContainerViewController>*) getUpperControllerFor:(XLSlidingContainerViewController *)sliderViewController;
 
 @optional
 - (UIView*) getDragView;
