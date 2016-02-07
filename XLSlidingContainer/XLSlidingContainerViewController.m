@@ -76,8 +76,8 @@
     [self.upperView addSubview:self.upperController.view];
     [self.lowerView addSubview:self.lowerController.view];
     
-    [self.lowerController minimizedController:[self getMovementDifference]];
-    [self.upperController maximizedController:[self getMovementDifference]];
+    [self.lowerController maximizedController:[self getMovementDifference]];
+    [self.upperController minimizedController:[self getMovementDifference]];
     
     [self.lowerController didMoveToParentViewController:self];
     [self.upperController didMoveToParentViewController:self];
@@ -89,6 +89,7 @@
     [pgr setCancelsTouchesInView:NO];
     [self.navView addGestureRecognizer:pgr];
     
+    self.edgesForExtendedLayout = UIRectEdgeNone;
 }
 
 
@@ -166,12 +167,30 @@
 
 -(void)drawViews{
     
-    CGRect middle = CGRectMake(0, (self.navView.bounds.size.height - [self.delegate getLowerViewMinFor:self] - [self dragViewHeight]), self.navView.bounds.size.width, [self dragViewHeight]);
+    CGRect middle = CGRectMake(
+                               0,
+                               0,
+                               self.navView.bounds.size.width,
+                               [self dragViewHeight]
+                               );
     self.dragView.frame = middle;
-    CGRect upper = CGRectMake(0, 0, self.navView.bounds.size.width, (self.navView.bounds.size.height - [self.delegate getLowerViewMinFor:self] - [self dragViewHeight]));
+    
+    CGRect upper = CGRectMake(0,
+                              0,
+                              self.navView.bounds.size.width,
+                              (self.navView.bounds.size.height - [self.delegate getLowerViewMinFor:self] - [self dragViewHeight])
+                              );
     self.upperView.frame = upper;
-    CGRect lower = CGRectMake(0, (self.navView.bounds.size.height - [self.delegate getLowerViewMinFor:self]), self.navView.bounds.size.width, [self.delegate getLowerViewMinFor:self]);
+    
+    CGRect lower = CGRectMake(0,
+                              CGRectGetMaxY(middle),
+                              self.navView.frame.size.width,
+                              self.navView.frame.size.height - 50 + [self dragViewHeight] // 50 is hieght of input view on compose screen
+                              );
+                              
     self.lowerView.frame = lower;
+    
+    [self.view bringSubviewToFront:self.dragView];
 }
 
 -(CGRect) frameForLowerController{
